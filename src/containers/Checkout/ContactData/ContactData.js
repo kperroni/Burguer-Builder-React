@@ -113,7 +113,7 @@ export class ContactData extends Component {
       price: this.props.totalPrice,
       orderData: formData
     };
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.token);
   };
 
   checkValidity(value, rules) {
@@ -126,6 +126,10 @@ export class ContactData extends Component {
     }
     if (rules.maxLength) {
       isValid = value.length <= rules.maxLength && isValid;
+    }
+    if (rules.isEmail) {
+      const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      isValid = pattern.test(value) && isValid;
     }
     return isValid;
   }
@@ -194,14 +198,15 @@ const mapStateToProps = state => {
   return {
     ings: state.burgerBuilderState.ingredients,
     totalPrice: state.burgerBuilderState.totalPrice,
-    loading: state.ordersState.loading
+    loading: state.ordersState.loading,
+    token: state.authState.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: orderData =>
-      dispatch(contactDataActions.purchaseBurger(orderData))
+    onOrderBurger: (orderData, token) =>
+      dispatch(contactDataActions.purchaseBurger(orderData, token))
   };
 };
 
