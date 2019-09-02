@@ -10,7 +10,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import axios from '../../axios-orders';
 import * as burgerBuilderActions from '../../store/actions/index';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
   state = {
     purchasing: false
   };
@@ -78,7 +78,6 @@ class BurgerBuilder extends Component {
   };
 
   render() {
-    console.log(this.props.ings);
     const disabledInfo = {
       ...this.props.ings
     };
